@@ -1,0 +1,164 @@
+---
+title: Input Processing System
+description: Documentation for the Input Processing System
+---
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+
+# Input Processing System
+
+Welcome to the Input Processing System documentation. This system provides a flexible framework for processing inputs from various sources and routing them to appropriate destinations.
+
+<div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Flexible Input Processing</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p>Process inputs from various sources including emails, meeting notes, and manual entries.</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/architecture">Learn More</a>
+      </Button>
+    </CardFooter>
+  </Card>
+  
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Intelligent Classification</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p>Automatically classify inputs by nature (tasks, events, reference information, etc.).</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/implementation">Learn More</a>
+      </Button>
+    </CardFooter>
+  </Card>
+  
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Flexible Routing</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p>Route inputs to appropriate destinations (Todoist, Calendar, Markdown notes, etc.).</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/extension">Learn More</a>
+      </Button>
+    </CardFooter>
+  </Card>
+</div>
+
+## Getting Started
+
+<Tabs defaultValue="quick-start">
+  <TabsList>
+    <TabsTrigger value="quick-start">Quick Start</TabsTrigger>
+    <TabsTrigger value="installation">Installation</TabsTrigger>
+    <TabsTrigger value="configuration">Configuration</TabsTrigger>
+  </TabsList>
+  <TabsContent value="quick-start">
+    <p>Get started quickly with the Input Processing System:</p>
+    <ol>
+      <li>Install the package</li>
+      <li>Configure your input sources</li>
+      <li>Set up your destination handlers</li>
+      <li>Start processing inputs</li>
+    </ol>
+    <Button asChild className="mt-4">
+      <a href="/getting-started">Read the Quick Start Guide</a>
+    </Button>
+  </TabsContent>
+  <TabsContent value="installation">
+    <p>Install the Input Processing System using npm:</p>
+    <pre className="bg-slate-950 p-4 text-slate-50 rounded-md">
+      <code>npm install input-processing-system</code>
+    </pre>
+    <Button asChild className="mt-4">
+      <a href="/getting-started#installation">View Installation Guide</a>
+    </Button>
+  </TabsContent>
+  <TabsContent value="configuration">
+    <p>Configure the Input Processing System to meet your needs:</p>
+    <pre className="bg-slate-950 p-4 text-slate-50 rounded-md">
+      <code>{`const config = {
+  inputSources: ['email', 'manual'],
+  processors: ['task', 'event', 'reference'],
+  destinations: ['todoist', 'calendar', 'notes']
+};`}</code>
+    </pre>
+    <Button asChild className="mt-4">
+      <a href="/getting-started#configuration">View Configuration Guide</a>
+    </Button>
+  </TabsContent>
+</Tabs>
+
+## Documentation Sections
+
+<div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Architecture</CardTitle>
+      <CardDescription>System architecture and design</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Learn about the architecture of the Input Processing System, including its components, interfaces, and design principles.</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/architecture">View Architecture</a>
+      </Button>
+    </CardFooter>
+  </Card>
+  
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Implementation</CardTitle>
+      <CardDescription>Implementation details and examples</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Explore implementation details, including code examples, best practices, and integration patterns.</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/implementation">View Implementation</a>
+      </Button>
+    </CardFooter>
+  </Card>
+  
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>API Reference</CardTitle>
+      <CardDescription>Detailed API documentation</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Browse the comprehensive API reference for all components, interfaces, and classes in the system.</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/api">View API Reference</a>
+      </Button>
+    </CardFooter>
+  </Card>
+  
+  <Card>
+    <CardHeader className="pb-2">
+      <CardTitle>Guides</CardTitle>
+      <CardDescription>Role-specific guides and tutorials</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Follow step-by-step guides and tutorials for different user roles and use cases.</p>
+    </CardContent>
+    <CardFooter>
+      <Button asChild variant="outline" size="sm">
+        <a href="/guides">View Guides</a>
+      </Button>
+    </CardFooter>
+  </Card>
+</div>

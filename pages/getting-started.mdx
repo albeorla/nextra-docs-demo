@@ -1,0 +1,142 @@
+---
+title: Getting Started
+description: Quick start guide for the Input Processing System
+---
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+
+# Getting Started with Input Processing System
+
+This guide will help you get started with the Input Processing System quickly and efficiently.
+
+<Alert>
+  <AlertTitle>Note</AlertTitle>
+  <AlertDescription>
+    This guide assumes you have basic knowledge of TypeScript and Node.js.
+  </AlertDescription>
+</Alert>
+
+## Installation
+
+Install the Input Processing System using your preferred package manager:
+
+<Tabs defaultValue="npm">
+  <TabsList>
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+    <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm">
+    ```bash
+    npm install input-processing-system
+    ```
+  </TabsContent>
+  <TabsContent value="yarn">
+    ```bash
+    yarn add input-processing-system
+    ```
+  </TabsContent>
+  <TabsContent value="pnpm">
+    ```bash
+    pnpm add input-processing-system
+    ```
+  </TabsContent>
+</Tabs>
+
+## Basic Usage
+
+Here's a simple example of how to use the Input Processing System:
+
+```typescript
+import { 
+  ManualTaskInputItem, 
+  TaskDetectionProcessor, 
+  TodoistHandler 
+} from 'input-processing-system';
+
+// Create an input item
+const manualInput = new ManualTaskInputItem({
+  rawContent: "Review documentation by Friday",
+  timestamp: new Date()
+});
+
+// Process the input item
+const processor = new TaskDetectionProcessor();
+const processedItem = processor.process(manualInput);
+
+// Handle the processed item
+const handler = new TodoistHandler();
+handler.handle(processedItem);
+```
+
+## Core Concepts
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="input-items">
+    <AccordionTrigger>Input Items</AccordionTrigger>
+    <AccordionContent>
+      <p>Input items represent raw pieces of input data in the system. They can come from various sources such as emails, meeting notes, or manual entries.</p>
+      <p>All input items implement the <code>IInputItem</code> interface and typically extend the <code>BaseInputItem</code> abstract class.</p>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="processors">
+    <AccordionTrigger>Processors</AccordionTrigger>
+    <AccordionContent>
+      <p>Processors analyze input items to determine their nature and extract relevant data. Each processor specializes in a specific type of content analysis.</p>
+      <p>All processors implement the <code>IInputProcessor</code> interface and typically extend the <code>BaseInputProcessor</code> abstract class.</p>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="destination-handlers">
+    <AccordionTrigger>Destination Handlers</AccordionTrigger>
+    <AccordionContent>
+      <p>Destination handlers route processed items to appropriate destinations such as task management systems, calendars, or note-taking applications.</p>
+      <p>All destination handlers implement the <code>IDestinationHandler</code> interface and typically extend the <code>BaseDestinationHandler</code> abstract class.</p>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="orchestration">
+    <AccordionTrigger>Orchestration</AccordionTrigger>
+    <AccordionContent>
+      <p>Orchestration services coordinate the flow of data through the system, from input sources to destination handlers.</p>
+      <p>The <code>InputProcessingOrchestrator</code> class provides a high-level API for orchestrating the entire process.</p>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+## Configuration
+
+Configure the Input Processing System to meet your specific needs:
+
+```typescript
+import { InputProcessingOrchestrator } from 'input-processing-system';
+
+const orchestrator = new InputProcessingOrchestrator({
+  processors: [
+    new TaskDetectionProcessor(),
+    new EventDetectionProcessor(),
+    new ReferenceInfoProcessor()
+  ],
+  destinationHandlers: [
+    new TodoistHandler(),
+    new GoogleCalendarHandler(),
+    new MarkdownNotesHandler()
+  ]
+});
+```
+
+## Next Steps
+
+Now that you have a basic understanding of the Input Processing System, you can:
+
+1. Explore the [Architecture](/architecture) to understand the system design
+2. Learn about [Implementation](/implementation) details and best practices
+3. Browse the [API Reference](/api) for detailed documentation
+4. Follow role-specific [Guides](/guides) for your use case
+
+<Alert>
+  <AlertTitle>Need Help?</AlertTitle>
+  <AlertDescription>
+    If you encounter any issues or have questions, please refer to the troubleshooting section or contact support.
+  </AlertDescription>
+</Alert>

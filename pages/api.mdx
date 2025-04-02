@@ -1,0 +1,241 @@
+---
+title: API Reference
+description: API documentation for the Input Processing System
+---
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+
+# API Reference
+
+This section provides comprehensive API documentation for all components of the Input Processing System.
+
+## Core Interfaces
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>IInputItem</CardTitle>
+      <CardDescription>Interface for input items</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Represents a raw piece of input data in the system.</p>
+      <pre className="bg-slate-950 p-4 text-slate-50 rounded-md mt-4">
+        <code>{`export interface IInputItem {
+  source: InputSource;
+  rawContent: any;
+  timestamp: Date;
+  getPotentialNature(): ItemNature;
+}`}</code>
+      </pre>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>IProcessedItem</CardTitle>
+      <CardDescription>Interface for processed items</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Represents an input item after processing.</p>
+      <pre className="bg-slate-950 p-4 text-slate-50 rounded-md mt-4">
+        <code>{`export interface IProcessedItem {
+  originalItem: IInputItem;
+  nature: ItemNature;
+  extractedData: any;
+  confidence: number;
+  getDestinations(): DestinationType[];
+}`}</code>
+      </pre>
+    </CardContent>
+  </Card>
+</div>
+
+## Abstract Base Classes
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+  <Card>
+    <CardHeader>
+      <CardTitle>BaseInputItem</CardTitle>
+      <CardDescription>Base class for input items</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Abstract base class for all input item implementations.</p>
+      <pre className="bg-slate-950 p-4 text-slate-50 rounded-md mt-4">
+        <code>{`export abstract class BaseInputItem implements IInputItem {
+  source: InputSource;
+  rawContent: any;
+  timestamp: Date;
+  
+  constructor(params: {
+    source: InputSource;
+    rawContent: any;
+    timestamp: Date;
+  }) {
+    this.source = params.source;
+    this.rawContent = params.rawContent;
+    this.timestamp = params.timestamp;
+  }
+  
+  abstract getPotentialNature(): ItemNature;
+}`}</code>
+      </pre>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>BaseInputProcessor</CardTitle>
+      <CardDescription>Base class for input processors</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Abstract base class for all input processor implementations.</p>
+      <pre className="bg-slate-950 p-4 text-slate-50 rounded-md mt-4">
+        <code>{`export abstract class BaseInputProcessor implements IInputProcessor {
+  abstract canProcess(item: IInputItem): boolean;
+  abstract process(item: IInputItem): IProcessedItem;
+}`}</code>
+      </pre>
+    </CardContent>
+  </Card>
+</div>
+
+## Core Processors
+
+<Table>
+  <TableCaption>Available Input Processors</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Processor</TableHead>
+      <TableHead>Purpose</TableHead>
+      <TableHead>Input Types</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>TaskDetectionProcessor</TableCell>
+      <TableCell>Identifies actionable tasks</TableCell>
+      <TableCell>Text, Email, Meeting Notes</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>EventDetectionProcessor</TableCell>
+      <TableCell>Identifies calendar events</TableCell>
+      <TableCell>Text, Email, Meeting Notes</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>ReferenceInfoProcessor</TableCell>
+      <TableCell>Identifies reference information</TableCell>
+      <TableCell>Text, Email, Meeting Notes</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Destination Handlers
+
+<Table>
+  <TableCaption>Available Destination Handlers</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Handler</TableHead>
+      <TableHead>Purpose</TableHead>
+      <TableHead>Destination</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>TodoistHandler</TableCell>
+      <TableCell>Routes tasks to Todoist</TableCell>
+      <TableCell>Todoist</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>GoogleCalendarHandler</TableCell>
+      <TableCell>Routes events to Google Calendar</TableCell>
+      <TableCell>Google Calendar</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>MarkdownNotesHandler</TableCell>
+      <TableCell>Routes reference information to Markdown notes</TableCell>
+      <TableCell>Markdown Files</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Orchestration Services
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>InputProcessingOrchestrator</CardTitle>
+    <CardDescription>Main orchestration service</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Coordinates the flow of data through the system, from input sources to destination handlers.</p>
+    <pre className="bg-slate-950 p-4 text-slate-50 rounded-md mt-4">
+      <code>{`export class InputProcessingOrchestrator {
+  private processors: IInputProcessor[];
+  private destinationHandlers: IDestinationHandler[];
+  
+  constructor(params: {
+    processors: IInputProcessor[];
+    destinationHandlers: IDestinationHandler[];
+  }) {
+    this.processors = params.processors;
+    this.destinationHandlers = params.destinationHandlers;
+  }
+  
+  processItem(item: IInputItem): void {
+    // Find appropriate processor
+    const processor = this.processors.find(p => p.canProcess(item));
+    if (!processor) {
+      throw new Error('No processor found for item');
+    }
+    
+    // Process the item
+    const processedItem = processor.process(item);
+    
+    // Route to appropriate destinations
+    const destinations = processedItem.getDestinations();
+    for (const destination of destinations) {
+      const handler = this.destinationHandlers.find(
+        h => h.canHandle(destination)
+      );
+      if (handler) {
+        handler.handle(processedItem);
+      }
+    }
+  }
+}`}</code>
+    </pre>
+  </CardContent>
+</Card>
+
+## Type Definitions
+
+<Card className="mt-6">
+  <CardHeader>
+    <CardTitle>Enums and Types</CardTitle>
+    <CardDescription>Type definitions used throughout the system</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <pre className="bg-slate-950 p-4 text-slate-50 rounded-md">
+      <code>{`export enum InputSource {
+  EMAIL = 'email',
+  MEETING_NOTES = 'meeting_notes',
+  MANUAL = 'manual'
+}
+
+export enum ItemNature {
+  TASK = 'task',
+  EVENT = 'event',
+  REFERENCE = 'reference',
+  UNKNOWN = 'unknown'
+}
+
+export enum DestinationType {
+  TODOIST = 'todoist',
+  GOOGLE_CALENDAR = 'google_calendar',
+  MARKDOWN_NOTES = 'markdown_notes'
+}`}</code>
+    </pre>
+  </CardContent>
+</Card>
