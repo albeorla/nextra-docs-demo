@@ -2,8 +2,8 @@
 import nextra from 'nextra'
 
 const withNextra = nextra({
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.jsx',
+  // Only include valid options for Nextra 4
+  contentDirBasePath: '/'
 })
 
 export default withNextra({
